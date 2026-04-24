@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Trade Marketing</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --orange: #E8541A;
+    --orange-dark: #B53E10;
+    --charcoal: #1A1A18;
+    --steel: #2E2E2B;
+    --concrete: #F0EDE8;
+    --text-light: #C8C4BC;
+    --font-display: 'Barlow Condensed', sans-serif;
+    --font-body: 'Barlow', sans-serif;
+  }
+  html { scroll-behavior: smooth; }
+  body { background: var(--charcoal); color: #fff; font-family: var(--font-body); overflow-x: hidden; }
+
+  /* NAV */
+  nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; padding: 1.25rem 4rem; background: rgba(26,26,24,0.92); backdrop-filter: blur(8px); border-bottom: 1px solid rgba(232,84,26,0.2); }
+  .logo { font-family: var(--font-display); font-size: 1.5rem; font-weight: 900; letter-spacing: 0.08em; text-transform: uppercase; }
+  .logo span { color: var(--orange); }
+  .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+  .nav-links a { font-family: var(--font-display); font-size: 0.85rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-light); text-decoration: none; transition: color 0.2s; }
+  .nav-links a:hover { color: var(--orange); }
+  .nav-cta { font-family: var(--font-display); font-size: 0.85rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; background: var(--orange); color: #fff; border: none; padding: 0.6rem 1.4rem; cursor: pointer; transition: background 0.2s; }
+  .nav-cta:hover { background: var(--orange-dark); }
+
+  /* HAMBURGER */
+  .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; background: none; border: none; padding: 4px; z-index: 101; }
+  .hamburger span { display: block; width: 24px; height: 2px; background: #fff; transition: all 0.3s; }
+  .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .hamburger.open span:nth-child(2) { opacity: 0; }
+  .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+  /* MOBILE MENU OVERLAY */
+  .mobile-menu { display: none; position: fixed; inset: 0; background: var(--charcoal); z-index: 99; flex-direction: column; align-items: center; justify-content: center; gap: 2.5rem; }
+  .mobile-menu.open { display: flex; }
+  .mobile-menu a { font-family: var(--font-display); font-size: 2.5rem; font-weight: 900; text-transform: uppercase; letter-spacing: 0.08em; color: #fff; text-decoration: none; transition: color 0.2s; }
+  .mobile-menu a:hover { color: var(--orange); }
+  .mobile-menu .mobile-cta { font-family: var(--font-display); font-size: 1rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; background: var(--orange); color: #fff; border: none; padding: 0.9rem 2.5rem; cursor: pointer; margin-top: 1rem; text-decoration: none; display: inline-block; }
+
+  /* HERO */
+  .hero { min-height: 100vh; display: flex; flex-direction: column; justify-content: flex-end; padding: 0 4rem 6rem; position: relative; overflow: hidden; }
+  .hero-bg { position: absolute; inset: 0; background: linear-gradient(135deg, rgba(26,26,24,0.95) 0%, rgba(26,26,24,0.7) 60%, rgba(232,84,26,0.15) 100%), repeating-linear-gradient(-45deg, transparent, transparent 40px, rgba(232,84,26,0.03) 40px, rgba(232,84,26,0.03) 41px); }
+  .hero-accent { position: absolute; top: 0; right: 0; width: 45%; height: 100%; background: linear-gradient(135deg, transparent 0%, rgba(232,84,26,0.08) 100%); clip-path: polygon(20% 0, 100% 0, 100% 100%, 0% 100%); }
+  .hero-number { position: absolute; top: 50%; right: 3rem; transform: translateY(-50%); font-family: var(--font-display); font-size: clamp(200px, 25vw, 340px); font-weight: 900; color: rgba(232,84,26,0.06); line-height: 1; user-select: none; letter-spacing: -0.02em; }
+  .hero-tag { position: relative; font-family: var(--font-display); font-size: 0.8rem; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--orange); margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.75rem; }
+  .hero-tag::before { content: ''; display: block; width: 2rem; height: 2px; background: var(--orange); }
+  .hero h1 { position: relative; font-family: var(--font-display); font-size: clamp(56px, 9vw, 120px); font-weight: 900; text-transform: uppercase; line-height: 0.9; letter-spacing: -0.01em; max-width: 800px; margin-bottom: 2rem; }
+  .hero h1 em { font-style: normal; color: var(--orange); }
+  .hero h1 .outline { -webkit-text-stroke: 2px rgba(255,255,255,0.25); color: transparent; }
+  .hero-sub { position: relative; font-size: 1.1rem; color: var(--text-light); max-width: 480px; line-height: 1.6; margin-bottom: 2.5rem; font-weight: 400; }
+  .hero-actions { position: relative; display: flex; gap: 1rem; align-items: center; flex-wrap: wrap; }
+  .btn-primary { font-family: var(--font-display); font-size: 0.95rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; background: var(--orange); color: #fff; border: 2px solid var(--orange); padding: 0.9rem 2.2rem; cursor: pointer; transition: all 0.2s; text-decoration: none; display: inline-block; }
+  .btn-primary:hover { background: var(--orange-dark); border-color: var(--orange-dark); }
+  .btn-ghost { font-family: var(--font-display); font-size: 0.95rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; background: transparent; color: #fff; border: 2px solid rgba(255,255,255,0.3); padding: 0.9rem 2.2rem; cursor: pointer; transition: all 0.2s; text-decoration: none; display: inline-block; }
+  .btn-ghost:hover { border-color: #fff; }
+
+  /* TICKER */
+  .ticker { background: var(--orange); padding: 0.75rem 0; overflow: hidden; white-space: nowrap; }
+  .ticker-inner { display: inline-flex; gap: 4rem; animation: ticker 20s linear infinite; }
+  .ticker-item { font-family: var(--font-display); font-size: 0.8rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: rgba(255,255,255,0.9); display: flex; align-items: center; gap: 1rem; }
+  .ticker-dot { width: 4px; height: 4px; background: rgba(255,255,255,0.6); border-radius: 50%; }
+  @keyframes ticker { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+
+  /* SECTIONS */
+  section { padding: 6rem 4rem; }
+  .section-label { font-family: var(--font-display); font-size: 0.75rem; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--orange); margin-bottom: 1rem; display: flex; align-items: center; gap: 0.75rem; }
+  .section-label::before { content: ''; display: block; width: 1.5rem; height: 2px; background: var(--orange); }
+  .section-title { font-family: var(--font-display); font-size: clamp(36px, 5vw, 64px); font-weight: 900; text-transform: uppercase; line-height: 0.95; letter-spacing: -0.01em; margin-bottom: 1.5rem; }
+
+  /* ABOUT */
+  .about { display: grid; grid-template-columns: 1fr; gap: 0; background: var(--steel); max-width: 720px; }
+  .about-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: rgba(232,84,26,0.2); border: 1px solid rgba(232,84,26,0.2); }
+  .stat-box { background: var(--steel); padding: 2rem; }
+  .stat-num { font-family: var(--font-display); font-size: 3.5rem; font-weight: 900; color: var(--orange); line-height: 1; margin-bottom: 0.25rem; }
+  .stat-label { font-size: 0.85rem; color: var(--text-light); font-weight: 500; text-transform: uppercase; letter-spacing: 0.08em; }
+  .about-text p { font-size: 1.05rem; line-height: 1.75; color: var(--text-light); margin-bottom: 1.25rem; }
+
+  /* SERVICES */
+  .services { background: var(--charcoal); }
+  .services-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: rgba(255,255,255,0.06); margin-top: 3rem; border: 1px solid rgba(255,255,255,0.06); }
+  .service-card { background: var(--charcoal); padding: 2.5rem; position: relative; overflow: hidden; transition: background 0.3s; }
+  .service-card:hover { background: var(--steel); }
+  .service-card:hover .service-num { opacity: 0.15; }
+  .service-num { font-family: var(--font-display); font-size: 5rem; font-weight: 900; color: rgba(232,84,26,0.08); position: absolute; top: 1rem; right: 1.5rem; line-height: 1; transition: opacity 0.3s; user-select: none; }
+  .service-icon { width: 2.5rem; height: 2.5rem; background: var(--orange); margin-bottom: 1.5rem; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; }
+  .service-title { font-family: var(--font-display); font-size: 1.4rem; font-weight: 900; text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 0.75rem; }
+  .service-desc { font-size: 0.9rem; color: var(--text-light); line-height: 1.65; }
+
+  /* INDUSTRIES */
+  .industries { background: var(--concrete); color: var(--charcoal); }
+  .industries .section-label { color: var(--orange); }
+  .industries .section-title { color: var(--charcoal); }
+  .industry-list { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; margin-top: 3rem; }
+  .industry-item { border: 2px solid rgba(26,26,24,0.12); padding: 1.75rem 1.5rem; transition: all 0.2s; cursor: default; position: relative; }
+  .industry-item:hover { border-color: var(--orange); background: rgba(232,84,26,0.05); }
+  .industry-item:hover .industry-arrow { color: var(--orange); }
+  .industry-name { font-family: var(--font-display); font-size: 1.1rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 0.4rem; }
+  .industry-sub { font-size: 0.8rem; color: #666; font-weight: 500; }
+  .industry-arrow { position: absolute; top: 1.75rem; right: 1.5rem; font-size: 1rem; color: rgba(26,26,24,0.2); transition: color 0.2s; }
+
+  /* WHY */
+  .why { background: var(--orange); }
+  .why .section-label { color: rgba(255,255,255,0.7); }
+  .why .section-label::before { background: rgba(255,255,255,0.7); }
+  .why-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: rgba(255,255,255,0.2); margin-top: 3rem; border: 1px solid rgba(255,255,255,0.2); }
+  .why-item { background: var(--orange); padding: 2rem 2.5rem; transition: background 0.2s; }
+  .why-item:hover { background: var(--orange-dark); }
+  .why-item h3 { font-family: var(--font-display); font-size: 1.3rem; font-weight: 900; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 0.6rem; }
+  .why-item p { font-size: 0.9rem; color: rgba(255,255,255,0.8); line-height: 1.65; }
+
+  /* CTA */
+  .cta-section { background: var(--charcoal); text-align: center; position: relative; overflow: hidden; }
+  .cta-bg-text { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-family: var(--font-display); font-size: clamp(80px, 15vw, 200px); font-weight: 900; text-transform: uppercase; color: rgba(232,84,26,0.05); white-space: nowrap; user-select: none; letter-spacing: 0.05em; }
+  .cta-section .section-label { justify-content: center; }
+  .cta-section .section-title { max-width: 700px; margin: 0 auto 2rem; }
+  .cta-section p { font-size: 1.05rem; color: var(--text-light); max-width: 480px; margin: 0 auto 2.5rem; line-height: 1.65; }
+  .cta-actions { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+
+  /* FOOTER */
+  footer { background: #111110; padding: 3rem 4rem; border-top: 1px solid rgba(232,84,26,0.2); display: flex; justify-content: space-between; align-items: center; }
+  .footer-logo { font-family: var(--font-display); font-size: 1.1rem; font-weight: 900; letter-spacing: 0.1em; text-transform: uppercase; }
+  .footer-logo span { color: var(--orange); }
+  .footer-copy { font-size: 0.8rem; color: #555; }
+  .footer-links { display: flex; gap: 2rem; list-style: none; }
+  .footer-links a { font-family: var(--font-display); font-size: 0.75rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: #555; text-decoration: none; transition: color 0.2s; }
+  .footer-links a:hover { color: var(--orange); }
+
+  /* ── TABLET ── */
+  @media (max-width: 768px) {
+    nav { padding: 1rem 1.5rem; }
+    .nav-links, .nav-cta { display: none; }
+    .hamburger { display: flex; }
+
+    .hero { padding: 0 1.5rem 4rem; }
+    .hero-number { font-size: clamp(120px, 38vw, 200px); right: 1rem; }
+    .hero h1 { font-size: clamp(52px, 13vw, 80px); }
+
+    section { padding: 4rem 1.5rem; }
+
+    .services-grid { grid-template-columns: 1fr 1fr; }
+
+    .industry-list { grid-template-columns: 1fr 1fr; }
+
+    .why-grid { grid-template-columns: 1fr; }
+
+    footer { flex-direction: column; gap: 1.5rem; text-align: center; padding: 2.5rem 1.5rem; }
+    .footer-links { flex-wrap: wrap; justify-content: center; gap: 1.25rem; }
+  }
+
+  /* ── MOBILE ── */
+  @media (max-width: 480px) {
+    .hero { padding: 0 1.25rem 3.5rem; }
+    .hero h1 { font-size: clamp(44px, 14vw, 64px); }
+    .hero-sub { font-size: 0.95rem; }
+    .hero-number { display: none; }
+    .hero-actions { flex-direction: column; align-items: stretch; }
+    .btn-primary, .btn-ghost { text-align: center; }
+
+    section { padding: 3.5rem 1.25rem; }
+    .section-title { font-size: clamp(32px, 10vw, 48px); }
+
+    .stat-num { font-size: 2.75rem; }
+    .stat-box { padding: 1.5rem; }
+
+    .services-grid { grid-template-columns: 1fr; }
+    .service-card { padding: 2rem 1.5rem; }
+
+    .industry-list { grid-template-columns: 1fr 1fr; gap: 0.75rem; }
+    .industry-item { padding: 1.25rem 1rem; }
+    .industry-arrow { display: none; }
+
+    .why-item { padding: 1.75rem 1.5rem; }
+
+    .cta-actions { flex-direction: column; align-items: center; }
+    .cta-actions .btn-primary, .cta-actions .btn-ghost { width: 100%; max-width: 280px; text-align: center; }
+
+    footer { padding: 2rem 1.25rem; }
+    .footer-copy { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="logo">Trade<span>.</span>Marketing</div>
+  <ul class="nav-links">
+    <li><a href="#services">Services</a></li>
+    <li><a href="#industries">Industries</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <button class="nav-cta">Get Started</button>
+  <button class="hamburger" id="hamburger" aria-label="Open menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#services" class="mobile-link">Services</a>
+  <a href="#industries" class="mobile-link">Industries</a>
+  <a href="#about" class="mobile-link">About</a>
+  <a href="#contact" class="mobile-link">Contact</a>
+  <a href="#contact" class="mobile-cta">Get Started</a>
+</div>
+
+<div class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-accent"></div>
+  <div class="hero-number">TM</div>
+  <div class="hero-tag">Marketing Built for the Trades</div>
+  <h1>Built for<br><em>Those Who</em><br><span class="outline">Build</span></h1>
+  <p class="hero-sub">Strategic marketing and brand development for the industrial, construction, and trades industries. We speak your language — and we make sure your customers do too.</p>
+  <div class="hero-actions">
+    <a href="#contact" class="btn-primary">Start a Project</a>
+    <a href="#services" class="btn-ghost">Our Services</a>
+  </div>
+</div>
+
+<div class="ticker">
+  <div class="ticker-inner">
+    <span class="ticker-item">Brand Strategy <span class="ticker-dot"></span></span>
+    <span class="ticker-item">Digital Marketing <span class="ticker-dot"></span></span>
+    <span class="ticker-item">Industrial Branding <span class="ticker-dot"></span></span>
+    <span class="ticker-item">Trade Show Marketing <span class="ticker-dot"></span></span>
+    <span class="ticker-item">Content Creation <span class="ticker-dot"></span></span>
+    <span class="ticker-item">Web Development <span class="ticker-dot"></span></span>
+    <span class="ticker-item">Lead Generation <span class="ticker-dot"></span></span>
+    <span class="ticker-item">Brand Strategy <span class="ticker-dot"></span></span>
+    <span class="ticker-item">Digital Marketing <span class="ticker-dot"></span></span>
+    <span class="ticker-item">Industrial Branding <span class="ticker-dot"></span></span>
+    <span class="ticker-item">Trade Show Marketing <span class="ticker-dot"></span></span>
+    <span class="ticker-item">Content Creation <span class="ticker-dot"></span></span>
+    <span class="ticker-item">Web Development <span class="ticker-dot"></span></span>
+    <span class="ticker-item">Lead Generation <span class="ticker-dot"></span></span>
+  </div>
+</div>
+
+<section class="about" id="about">
+  <div class="about-text">
+    <div class="section-label">Who We Are</div>
+    <h2 class="section-title">We Know the Trade</h2>
+    <p>Trade Marketing was built from the ground up to serve one industry — yours. We understand the cycles, the buyers, the distributors, and the jobsite culture that drives decisions.</p>
+    <p>From local contractors to national manufacturers, we craft brands that earn respect in the field and convert in the boardroom.</p>
+    <a href="#contact" class="btn-primary" style="display: inline-block; margin-top: 1rem;">Work With Us</a>
+  </div>
+
+</section>
+
+<section class="services" id="services">
+  <div class="section-label">What We Do</div>
+  <h2 class="section-title">Our Services</h2>
+  <div class="services-grid">
+    <div class="service-card"><div class="service-num">01</div><div class="service-icon">◆</div><div class="service-title">Brand Development</div><p class="service-desc">Full identity systems built for durability — logos, color, typography, and brand guidelines that hold up on a truck wrap and a trade show booth.</p></div>
+    <div class="service-card"><div class="service-num">02</div><div class="service-icon">◈</div><div class="service-title">Digital Marketing</div><p class="service-desc">SEO, paid search, and social media strategies tuned for industrial buyers. We know how trades professionals search and how to get in front of them.</p></div>
+    <div class="service-card"><div class="service-num">03</div><div class="service-icon">⬡</div><div class="service-title">Web Design</div><p class="service-desc">High-converting websites built for contractors, suppliers, and manufacturers. Fast, mobile-first, and designed to generate real leads.</p></div>
+    <div class="service-card"><div class="service-num">04</div><div class="service-icon">◉</div><div class="service-title">Content & Video</div><p class="service-desc">From project showcases to product demos, we create content that builds credibility with the crews and decision-makers who matter most.</p></div>
+    <div class="service-card"><div class="service-num">05</div><div class="service-icon">▲</div><div class="service-title">Trade Show & Events</div><p class="service-desc">Booth design, collateral, pre-show campaigns, and follow-up strategies that make your presence count at industry expos and regional shows.</p></div>
+    <div class="service-card"><div class="service-num">06</div><div class="service-icon">■</div><div class="service-title">Channel Marketing</div><p class="service-desc">Distributor programs, co-op campaigns, and dealer marketing support designed for the complex sales channels of the trades industry.</p></div>
+  </div>
+</section>
+
+<section class="industries" id="industries">
+  <div class="section-label">Who We Serve</div>
+  <h2 class="section-title">Built for<br>Your Industry</h2>
+  <div class="industry-list">
+    <div class="industry-item"><div class="industry-arrow">→</div><div class="industry-name">Construction</div><div class="industry-sub">General & Specialty Contractors</div></div>
+    <div class="industry-item"><div class="industry-arrow">→</div><div class="industry-name">Electrical</div><div class="industry-sub">Contractors & Distributors</div></div>
+    <div class="industry-item"><div class="industry-arrow">→</div><div class="industry-name">HVAC</div><div class="industry-sub">Residential & Commercial</div></div>
+    <div class="industry-item"><div class="industry-arrow">→</div><div class="industry-name">Plumbing</div><div class="industry-sub">Mechanical & Service</div></div>
+    <div class="industry-item"><div class="industry-arrow">→</div><div class="industry-name">Manufacturing</div><div class="industry-sub">Industrial & OEM</div></div>
+    <div class="industry-item"><div class="industry-arrow">→</div><div class="industry-name">Building Supply</div><div class="industry-sub">Distributors & Dealers</div></div>
+    <div class="industry-item"><div class="industry-arrow">→</div><div class="industry-name">Oil & Gas</div><div class="industry-sub">Field & Facility Services</div></div>
+    <div class="industry-item"><div class="industry-arrow">→</div><div class="industry-name">Heavy Equipment</div><div class="industry-sub">Rental, Sales & Service</div></div>
+  </div>
+</section>
+
+<section class="why">
+  <div class="section-label">Why Trade Marketing</div>
+  <h2 class="section-title" style="max-width: 500px;">The Difference is Expertise</h2>
+  <div class="why-grid">
+    <div class="why-item"><h3>Industry-Only Focus</h3><p>We don't do restaurants or fashion. Every insight, tool, and relationship we've built is for one world — the trades. That depth shows in every campaign.</p></div>
+    <div class="why-item"><h3>Real-World Credibility</h3><p>Our team has worked on jobsites, visited plants, and walked trade floors. We understand your buyers because we've stood in the same rooms as them.</p></div>
+    <div class="why-item"><h3>Results That Move Business</h3><p>Vanity metrics don't cut it in the trades. We tie every program to pipeline, revenue, and growth — and we report on what matters to your business.</p></div>
+    <div class="why-item"><h3>Full-Service, One Partner</h3><p>Brand to digital to print to trade shows — we manage everything under one roof so your story stays consistent across every channel and touchpoint.</p></div>
+  </div>
+</section>
+
+<section class="cta-section" id="contact">
+  <div class="cta-bg-text">Let's Build</div>
+  <div style="position: relative;">
+    <div class="section-label">Get In Touch</div>
+    <h2 class="section-title">Ready to Build<br>Your Brand?</h2>
+    <p>Whether you're starting from scratch or ready to level up, let's talk about what's possible for your business.</p>
+    <div class="cta-actions">
+      <a href="mailto:hello@trademarketing.com" class="btn-primary">Email Us</a>
+      <a href="tel:+15551234567" class="btn-ghost">Call Us</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-logo">Trade<span>.</span>Marketing</div>
+  <span class="footer-copy">© 2026 Trade Marketing. All rights reserved.</span>
+  <ul class="footer-links">
+    <li><a href="#services">Services</a></li>
+    <li><a href="#industries">Industries</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</footer>
+
+<script>
+  const hamburger = document.getElementById('hamburger');
+  const mobileMenu = document.getElementById('mobileMenu');
+  hamburger.addEventListener('click', () => {
+    hamburger.classList.toggle('open');
+    mobileMenu.classList.toggle('open');
+    document.body.style.overflow = mobileMenu.classList.contains('open') ? 'hidden' : '';
+  });
+  document.querySelectorAll('.mobile-link, .mobile-cta').forEach(link => {
+    link.addEventListener('click', () => {
+      hamburger.classList.remove('open');
+      mobileMenu.classList.remove('open');
+      document.body.style.overflow = '';
+    });
+  });
+</script>
+</body>
+</html>
